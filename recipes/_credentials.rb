@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: awscli
-# Recipe:: default
+# Recipe:: _credentials
 #
 # Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
@@ -15,11 +15,20 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 #
-case node['platform_family']
-when 'windows'
-  include_recipe 'awscli::_windows'
-else
-  include_recipe 'awscli::_linux'
-end
 
-include_recipe 'awscli::_credentials'
+if users = node['awscli']['users']
+  users.each do |user|
+    aws_dir = File.join("#{node['etc']['passwd']["#{user['name']}"]['dir']}", '.aws')
+    directory aws_dir do
+      owner user['name']
+      group user['name']
+    end
+    template File.join(aws_dir,'credentials') do
+      source 'credentials.erb'
+      mode '0600'
+      owner user['name']
+      group user['name']
+      variables lazy {{ :user => user }}
+    end
+  end
+end
