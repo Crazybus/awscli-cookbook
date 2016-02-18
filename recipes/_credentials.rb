@@ -16,27 +16,26 @@
 # language governing permissions and limitations under the License.
 #
 
-if users = node['awscli']['users']
-  users.each do |user|
-    aws_dir = File.join(node['etc']['passwd']["#{user['name']}"]['dir'], '.aws')
+if node['awscli']['users']
+  node['awscli']['users'].each do |user|
+    aws_dir = File.join(node['etc']['passwd'][user['name']]['dir'], '.aws')
     directory aws_dir do
       owner user['name']
       group user['name']
     end
-    template File.join(aws_dir,'credentials') do
+    template File.join(aws_dir, 'credentials') do
       source 'credentials.erb'
       mode '0600'
       owner user['name']
       group user['name']
-      variables lazy {{ :user => user }}
+      variables lazy { { :user => user } }
     end
-    if node['awscli']['config']
-      template File.join(aws_dir,'config') do
-        source 'config.erb'
-        mode '0600'
-        owner user['name']
-        group user['name']
-      end
+    next unless node['awscli']['config']
+    template File.join(aws_dir, 'config') do
+      source 'config.erb'
+      mode '0600'
+      owner user['name']
+      group user['name']
     end
   end
 end

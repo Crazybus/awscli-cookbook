@@ -35,7 +35,7 @@ aws_secret_access_key = sdfklsdj/lfkLDKSJAFlkj213
   it 'creates a config file' do
     chef_run.node.set['etc']['passwd']["root"]['dir'] = '/root'
     chef_run.node.set['awscli']['users'] = [{ 'name' => 'root', 'id' => '123456', 'key' => 'sdfklsdj/lfkLDKSJAFlkj213' }]
-    chef_run.node.set['awscli']['config'] = { 'region' => 'eu-nl-prod01', 'endpoint-url' => 'http://s3.custom.url.com'}
+    chef_run.node.set['awscli']['config'] = { 'region' => 'eu-nl-prod01', 'endpoint-url' => 'http://s3.custom.url.com' }
     chef_run.converge(described_recipe)
     cred_template = <<-HERE
 [default]
