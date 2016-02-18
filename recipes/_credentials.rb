@@ -18,7 +18,7 @@
 
 if users = node['awscli']['users']
   users.each do |user|
-    aws_dir = File.join("#{node['etc']['passwd']["#{user['name']}"]['dir']}", '.aws')
+    aws_dir = File.join(node['etc']['passwd']["#{user['name']}"]['dir'], '.aws')
     directory aws_dir do
       owner user['name']
       group user['name']
