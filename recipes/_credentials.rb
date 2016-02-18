@@ -30,5 +30,13 @@ if users = node['awscli']['users']
       group user['name']
       variables lazy {{ :user => user }}
     end
+    if node['awscli']['config']
+      template File.join(aws_dir,'config') do
+        source 'config.erb'
+        mode '0600'
+        owner user['name']
+        group user['name']
+      end
+    end
   end
 end

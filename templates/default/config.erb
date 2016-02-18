@@ -1,0 +1,4 @@
+[default]
+<% node['awscli']['config'].sort.each do |i, v| %>
+<%= i %> = <%= v %>
+<% end %>
