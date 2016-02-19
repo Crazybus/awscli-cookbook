@@ -20,7 +20,12 @@ describe 'awscli::_credentials' do
       :version => '14.04'
     )
   end
-
+  it 'creates the .aws directory' do
+    chef_run.node.set['etc']['passwd']["root"]['dir'] = '/root'
+    chef_run.node.set['awscli']['users'] = [{ 'name' => 'root', 'id' => '123456', 'key' => 'sdfklsdj/lfkLDKSJAFlkj213' }]
+    chef_run.converge(described_recipe)
+    expect(chef_run).to create_directory('/root/.aws').with_owner('root').with_group('root')
+  end
   it 'creates a credentials file' do
     chef_run.node.set['etc']['passwd']["root"]['dir'] = '/root'
     chef_run.node.set['awscli']['users'] = [{ 'name' => 'root', 'id' => '123456', 'key' => 'sdfklsdj/lfkLDKSJAFlkj213' }]
