@@ -32,6 +32,24 @@ All attributes are located under `node['awscli']`
     <th>Default</th>
   </tr>
   <tr>
+    <td>config</td>
+    <td>Hash with key pair values to install to ~/.aws/config</td>
+    <td>{ 'key' => 'value' }</td>
+    <td>nil</td>
+  </tr>
+  <tr>
+    <td>env_vars</td>
+    <td>A hash of environment variables to set</td>
+    <td>{ 'S3_VARIABLE' => 'value' }</td>
+    <td>nil</td>
+  </tr>
+  <tr>
+    <td>users</td>
+    <td>A list of users to configure aws credentials for to ~/.aws/credentials</td>
+    <td>[ { 'name' => 'root' }, 'id' => '123456', 'key' => 'sdSDFl3234' } ]</td>
+    <td>nil</td>
+  </tr>
+  <tr>
     <td>version</td>
     <td>The version of awscli to install. Setting to 'present' will not set a version</td>
     <td>1.10.4</td>
