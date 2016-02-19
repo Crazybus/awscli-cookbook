@@ -39,3 +39,18 @@ if node['awscli']['users']
     end
   end
 end
+
+if node['awscli']['env_vars']
+  case node['platform_family']
+  when 'windows'
+    node['awscli']['env_vars'].each do |key, value|
+      env key do
+        value value
+      end
+    end
+  else
+    template '/etc/profile.d/awscli.sh' do
+      source 'awscli_vars.erb'
+    end
+  end
+end

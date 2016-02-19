@@ -44,4 +44,13 @@ test-var = value
     HERE
     expect(chef_run).to render_file('/root/.aws/config').with_content(cred_template)
   end
+  it 'creates environment variables' do
+    chef_run.node.set['awscli']['env_vars'] = { 'S3_ENDPOINT' => 'http://s3.endpoint', 'S3_KEY' => 'value' }
+    chef_run.converge(described_recipe)
+    template = <<-HERE
+export S3_ENDPOINT=http://s3.endpoint
+export S3_KEY=value
+    HERE
+    expect(chef_run).to render_file('/etc/profile.d/awscli.sh').with_content(template)
+  end
 end

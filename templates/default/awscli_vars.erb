@@ -1,0 +1,3 @@
+<% node['awscli']['env_vars'].sort.each do |i, v| %>
+export <%= i %>=<%= v %>
+<% end %>
